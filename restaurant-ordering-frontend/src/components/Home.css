@@ -1,0 +1,78 @@
+/* src/components/Home.css */
+
+.home-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.welcome-container {
+    margin-bottom: 40px;
+}
+
+.welcome-container h1 {
+    font-size: 40px;
+    color: #7e4209; /* Change the color here */
+}
+
+.menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.menu-item {
+    width: 100%;
+    max-width: 300px; /* Adjust max-width as needed */
+}
+
+.menu-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.menu-image {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.menu-details {
+    padding: 15px;
+    color: #333; /* Adjust text color */
+}
+
+.menu-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.menu-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.menu-price {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.add-to-cart-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #0056b3;
+}
