@@ -14,6 +14,14 @@ from django.contrib.auth import authenticate
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Order, OrderItem
+from django.shortcuts import get_object_or_404
+from datetime import datetime
+from .models import Order
+from .serializers import OrderSerializer
 
 
 class MenuItemViewSet(viewsets.ModelViewSet):
@@ -73,3 +81,42 @@ def staff_login(request):
         return Response({'message': 'Staff login successful'}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid credentials or not authorized'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+# @api_view(['POST'])
+# def create_order(request):
+#     table_number = request.data.get('table_number')
+#     total_amount = request.data.get('total_amount')
+#     items = request.data.get('items', [])
+
+#     # Create Order instance
+#     order = Order.objects.create(
+#         table_number=table_number,
+#         total_amount=total_amount,
+#         created_at=datetime.now(),  # Assuming you have a created_at field in your model
+#     )
+
+#     # Create OrderItem instances
+#     for item in items:
+#         menu_item_id = item.get('menu_item')
+#         quantity = item.get('quantity')
+#         sub_total = item.get('sub_total')
+#         menu_item = get_object_or_404(MenuItem, pk=menu_item_id)  # Assuming MenuItem model exists
+
+#         OrderItem.objects.create(
+#             order=order,
+#             menu_item=menu_item,
+#             quantity=quantity,
+#             sub_total=sub_total,
+#         )
+
+#     return Response({'message': 'Order placed successfully'}, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def create_order(request):
+    serializer = OrderSerializer(data=request.data)
+    if serializer.is_valid():
+        # Associate order with customer (example assuming customer ID is passed in request)
+        serializer.save(customer_id=request.user.id)  # Adjust as per your authentication setup
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

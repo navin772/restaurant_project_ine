@@ -13,7 +13,8 @@ import './App.css';
 axios.defaults.baseURL = 'http://localhost:8000';
 
 const App = () => {
-    const [cart, setCart] = useState([]);
+    const initialCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const [cart, setCart] = useState(initialCart);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isStaff, setIsStaff] = useState(false); // State for staff login
 
@@ -46,6 +47,10 @@ const App = () => {
         setIsStaff(false); // Reset staff login state on logout
     };
 
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
+
     return (
         <Router>
             <div className="navbar">
@@ -55,11 +60,11 @@ const App = () => {
                         <>
                             <Link to="/cart">Cart</Link>
                             <Link to="/orders">Orders</Link>
-                            {isStaff ? (
-                                <Link to="/staff">Staff Dashboard</Link>
-                            ) : (
                                 <button onClick={handleLogout}>Logout</button>
-                            )}
+                                <button onClick={handleLogout}>Logout</button>
+                            ){'}'}
+                            <button onClick={handleLogout}>Logout</button>
+                            ){'}'}
                         </>
                     ) : (
                         <>
@@ -71,7 +76,7 @@ const App = () => {
             </div>
             <Switch>
                 <Route path="/login">
-                    <Login setIsLoggedIn={setIsLoggedIn} setIsStaff={setIsStaff} />
+                    <Login setIsLoggedIn={setIsLoggedIn} />
                 </Route>
                 <Route path="/signup" component={Signup} />
                 <Route path="/cart">
@@ -93,6 +98,7 @@ const App = () => {
                                 });
                                 console.log('Order placed:', response.data);
                                 setCart([]);
+                                localStorage.removeItem('cart'); // Clear cart after placing order
                             } catch (error) {
                                 console.error('Failed to place order', error);
                             }
